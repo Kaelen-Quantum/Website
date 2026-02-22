@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quantum Digitals | Legal Notice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080809;
+      --bg-card: #0e0e10;
+      --text: #f0ede8;
+      --muted: #888;
+      --amber: #fca311;
+      --amber-dim: rgba(252,163,17,0.08);
+      --border: rgba(255,255,255,0.06);
+      --radius: 18px;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .ambient {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-1 {
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(252,163,17,0.09) 0%, transparent 65%);
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .ambient-2 {
+      bottom: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(252,163,17,0.05) 0%, transparent 65%);
+      animation: drift 9s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to { transform: translate(30px,20px) scale(1.08); }
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 100px 0 70px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.4rem;
+    }
+    .eyebrow-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--amber); }
+
+    .hero-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(252,163,17,0.25), transparent);
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin: 50px 0 60px;
+    }
+    .toc-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toc-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .toc-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.95rem;
+      color: var(--amber);
+      width: 24px;
+      flex-shrink: 0;
+    }
+    .toc-list a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: color 0.2s;
+    }
+    .toc-list a:hover { color: var(--text); }
+
+    /* SECTIONS */
+    .legal-section {
+      margin-bottom: 48px;
+      scroll-margin-top: 40px;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      letter-spacing: 0.03em;
+      margin-bottom: 1.2rem;
+      line-height: 1;
+    }
+
+    /* INFO CARD (company/hosting details) */
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .info-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-row:hover { background: rgba(252,163,17,0.03); }
+    .info-key {
+      padding: 14px 20px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 600;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+    .info-val {
+      padding: 14px 20px;
+      font-size: 0.88rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+    }
+    .info-val a {
+      color: var(--amber);
+      text-decoration: none;
+    }
+    .info-val a:hover { text-decoration: underline; }
+
+    /* POLICY BLOCKS */
+    .policy-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .policy-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--amber);
+      opacity: 0.4;
+    }
+    .policy-block:hover { border-color: rgba(252,163,17,0.2); }
+    .policy-block:hover::before { opacity: 0.8; }
+
+    .policy-art {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--amber);
+      margin-bottom: 6px;
+    }
+    .policy-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .policy-body {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    /* HIGHLIGHT BLOCK (for jurisdiction, disclaimer) */
+    .highlight-block {
+      background: linear-gradient(135deg, rgba(252,163,17,0.06) 0%, transparent 70%);
+      border: 1px solid rgba(252,163,17,0.18);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+    }
+    .highlight-block .policy-body { color: var(--text); opacity: 0.8; }
+
+    /* GDPR BADGE ROW */
+    .badge-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.2);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 0.78rem;
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    /* CONTACT BLOCK */
+    .contact-block {
+      background: linear-gradient(135deg, rgba(252,163,17,0.07) 0%, transparent 60%);
+      border: 1px solid rgba(252,163,17,0.2);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 60px;
+    }
+    .contact-block h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+    }
+    .contact-block p { color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+    .contact-email {
+      display: block;
+      margin-top: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--amber);
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 1.8rem;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      background: var(--amber);
+      color: #080809;
+      box-shadow: 0 0 28px rgba(252,163,17,0.3);
+      white-space: nowrap;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 45px rgba(252,163,17,0.5);
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+
+    @media (max-width: 600px) {
+      .info-row { grid-template-columns: 1fr; }
+      .info-key { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+      .info-val { padding-top: 8px; }
+      .contact-block { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="eyebrow fade-in delay-1">
+      <span class="eyebrow-dot"></span>
+      Legal & Compliance
+    </div>
+    <h1 class="fade-in delay-2">Legal <span>Notice</span></h1>
+    <p class="hero-sub fade-in delay-3">All legal information, privacy policies, and internal terms governing the use of Quantum Digitals' services.</p>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- TABLE OF CONTENTS -->
+  <nav class="toc">
+    <div class="toc-label">Contents</div>
+    <ul class="toc-list">
+      <li><span class="toc-num">01</span><a>Company Information</a></li>
+      <li><span class="toc-num">02</span><a>Website Hosting</a></li>
+      <li><span class="toc-num">03</span><a>Liability Disclaimer</a></li>
+      <li><span class="toc-num">04</span><a">Jurisdiction & Applicable Laws</a></li>
+      <li><span class="toc-num">05</span><a>Information Privacy</a></li>
+      <li><span class="toc-num">06</span><a>Internal Policies</a></li>
+    </ul>
+  </nav>
+
+  <!-- COMPANY INFO -->
+  <div class="legal-section" id="company">
+    <div class="section-label">01</div>
+    <h2 class="section-title">Company Information</h2>
+    <div class="info-card">
+      <div class="info-row">
+        <div class="info-key">Company Name</div>
+        <div class="info-val">Quantum Digitals</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Legal Form</div>
+        <div class="info-val">Sole Proprietorship (EI)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Registration Number</div>
+        <div class="info-val">94399498800013</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">VAT Number</div>
+        <div class="info-val">FR39943994988</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Country</div>
+        <div class="info-val">France</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Contact Email</div>
+        <div class="info-val"><a>contact@quantum-digitals.com</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOSTING -->
+  <div class="legal-section" id="hosting">
+    <div class="section-label">02</div>
+    <h2 class="section-title">Website Hosting</h2>
+    <div class="info-card">
+      <div class="info-row">
+        <div class="info-key">Hosting Provider</div>
+        <div class="info-val">Google Sites</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Hosting Address</div>
+        <div class="info-val">Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Support</div>
+        <div class="info-val"><a href="https://support.google.com/sites" target="_blank">support.google.com/sites</a></div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Phone</div>
+        <div class="info-val">+1 650-253-0000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIABILITY -->
+  <div class="legal-section" id="liability">
+    <div class="section-label">03</div>
+    <h2 class="section-title">Liability Disclaimer</h2>
+    <div class="highlight-block">
+      <div class="policy-body">
+        Quantum Digitals makes every effort to ensure the accuracy and reliability of the information presented on this website. However, we accept no responsibility for errors, omissions, or damages resulting from its use.
+      </div>
+    </div>
+  </div>
+
+  <!-- JURISDICTION -->
+  <div class="legal-section" id="jurisdiction">
+    <div class="section-label">04</div>
+    <h2 class="section-title">Jurisdiction & Applicable Laws</h2>
+    <div class="highlight-block">
+      <div class="policy-body">
+        Any dispute arising from the interpretation or execution of these terms shall be subject to the exclusive jurisdiction of the courts in Seine-et-Marne, France, and governed by the applicable laws of France and the European Union.
+      </div>
+      <div class="badge-row">
+        <span class="badge">French Law</span>
+        <span class="badge">European Union</span>
+        <span class="badge">Seine-et-Marne Courts</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVACY -->
+  <div class="legal-section" id="privacy">
+    <div class="section-label">05</div>
+    <h2 class="section-title">Information Privacy</h2>
+    <div class="policy-block">
+      <div class="policy-body">
+        Your personal information, project data, and game files are securely stored on our company servers. Access is strictly limited to authorized personnel operating under internal security protocols. No external party has access to this information, and under no circumstances will your data be shared, leaked, or misused.
+      </div>
+    </div>
+    <div class="policy-block">
+      <div class="policy-title">GDPR Compliance</div>
+      <div class="policy-body">
+        In compliance with the General Data Protection Regulation (GDPR, EU Regulation 2016/679), you have the right to access, correct, or request the deletion of your personal data at any time by contacting us at the email address provided in this Legal Notice.
+      </div>
+      <div class="badge-row">
+        <span class="badge">GDPR Compliant</span>
+        <span class="badge">Right to Access</span>
+        <span class="badge">Right to Deletion</span>
+      </div>
+    </div>
+    <div class="policy-block">
+      <div class="policy-title">Data Retention & Deletion</div>
+      <div class="policy-body">
+        Upon completion of your project, or at your explicit request, all related data and files will be permanently deleted, except for essential client information (such as billing details and legal identifiers) retained for administrative and tax obligations. Secure backups may be temporarily stored for operational purposes and are deleted once no longer necessary.
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERNAL POLICIES -->
+  <div class="legal-section" id="policies">
+    <div class="section-label">06</div>
+    <h2 class="section-title">Internal Policies</h2>
+
+    <div class="policy-block">
+      <div class="policy-art">Article 1</div>
+      <div class="policy-title">Assets Protection</div>
+      <div class="policy-body">
+        Any screenshots, media, or content that reveal or showcase aspects of your project will never be shared, reused, or published without your explicit consent. This includes portfolio use, promotional materials, or internal showcases. Your project and all related information remain strictly confidential at all times. We do not disclose any details about your project's structure, features, or implementation. Even in the event of a dispute or disagreement, we remain committed to upholding a respectful, secure, and confidential environment.
+      </div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-art">Article 2</div>
+      <div class="policy-title">Communication</div>
+      <div class="policy-body">
+        We maintain clear and professional communication at every stage of the project. Our team typically responds within 24 to 48 business hours. Delays in client responses may impact the delivery timeline. Development work is paused during weekends and public holidays, in accordance with company policy.
+      </div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-art">Article 3</div>
+      <div class="policy-title">Modifications</div>
+      <div class="policy-body">
+        If an asset or system has already been fully developed, any major modifications that significantly differ from what was outlined in the original purchase order may incur additional costs, typically around 10%.
+      </div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-art">Article 4</div>
+      <div class="policy-title">Payment Terms</div>
+      <div class="policy-body">
+        All projects require a 50% upfront deposit to secure scheduling and begin development. The remaining balance is due upon completion, prior to final delivery. Payments must be made via authorized methods specified in the invoice or purchase order.
+      </div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-art">Article 5</div>
+      <div class="policy-title">Ownership Transfer</div>
+      <div class="policy-body">
+        Full ownership of all assets and systems is transferred to you only after full payment has been received. Until that point, the rights remain the property of Quantum Digitals. After transfer, we no longer retain any claim or control over the delivered work.
+      </div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-art">Article 6</div>
+      <div class="policy-title">Refund Policy</div>
+      <div class="policy-body">
+        As this service involves custom digital development, the European right of withdrawal (14 days) does not apply once work has begun. Refunds are therefore not provided after project initiation. Partial refunds may be considered only if minimal progress has been made, at the company's discretion.
+      </div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-art">Article 7</div>
+      <div class="policy-title">Post-Delivery Support</div>
+      <div class="policy-body">
+        We offer limited support for up to 14 days after project delivery to address minor bugs or clarify system use. Any further development, updates, or feature additions require a new agreement.
+      </div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-art">Article 8</div>
+      <div class="policy-title">Security Compliance</div>
+      <div class="policy-body">
+        We operate in alignment with GDPR and Roblox's platform policies. If you require a Non-Disclosure Agreement (NDA), we are happy to provide and sign one to ensure mutual confidentiality.
+      </div>
+      <div class="badge-row">
+        <span class="badge">GDPR</span>
+        <span class="badge">Roblox Platform Compliant</span>
+        <span class="badge">NDA Available</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-block">
+    <div>
+      <div class="section-label">Questions?</div>
+      <h2>Contact Us</h2>
+      <p>For any legal inquiries, data requests, or compliance questions, reach out directly.</p>
+      <span class="contact-email">contact@quantum-digitals.com</span>
+    </div>
+    <a class="btn">Email Us</a>
+  </div>
+
+</div>
+
+<footer>
+  &copy; <span id="yr"></span> Quantum Digitals &middot; All Rights Reserved &middot; Sole Proprietorship registered in France
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.toc, .info-card, .policy-block, .highlight-block, .contact-block').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(18px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
