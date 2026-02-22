@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quantum Digitals | Pricing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080809;
+      --bg-card: #0e0e10;
+      --text: #f0ede8;
+      --muted: #888;
+      --amber: #fca311;
+      --amber-dim: rgba(252,163,17,0.08);
+      --border: rgba(255,255,255,0.06);
+      --radius: 18px;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .ambient {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-1 {
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(252,163,17,0.1) 0%, transparent 65%);
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .ambient-2 {
+      bottom: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(252,163,17,0.06) 0%, transparent 65%);
+      animation: drift 9s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to { transform: translate(30px,20px) scale(1.08); }
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 100px 0 80px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.4rem;
+    }
+    .eyebrow-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 .accent { color: var(--amber); }
+    .hero h1 .outline {
+      display: block;
+      -webkit-text-stroke: 1.5px rgba(240,237,232,0.2);
+      color: transparent;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      max-width: 520px;
+      margin: 0 auto 2.2rem;
+    }
+    .hero-sub strong { color: var(--text); }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.2);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(252,163,17,0.25), transparent);
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+    .section-desc {
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.7;
+      max-width: 500px;
+    }
+
+    /* ── MAIN PRICING CARD ── */
+    .pricing-section {
+      margin: 70px 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .rate-card {
+      background: linear-gradient(135deg, rgba(252,163,17,0.1) 0%, rgba(252,163,17,0.03) 50%, transparent 100%);
+      border: 1px solid rgba(252,163,17,0.3);
+      border-radius: var(--radius);
+      padding: 52px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .rate-card::before {
+      content: '$16';
+      position: absolute;
+      right: -10px; bottom: -30px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 11rem;
+      color: rgba(252,163,17,0.05);
+      letter-spacing: -0.02em;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .rate-pill {
+      display: inline-block;
+      background: var(--amber);
+      color: #080809;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 1.4rem;
+    }
+
+    .rate-display {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+    .rate-dollar {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--amber);
+      padding-bottom: 12px;
+    }
+    .rate-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 7rem;
+      color: var(--amber);
+      letter-spacing: -0.02em;
+    }
+    .rate-unit {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 500;
+      padding-bottom: 16px;
+    }
+
+    .rate-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .rate-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 2rem;
+    }
+
+    .rate-features {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 2.4rem;
+    }
+    .rate-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .rate-features li::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .rate-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      background: var(--amber);
+      color: #080809;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: 0 0 30px rgba(252,163,17,0.35);
+      transition: all 0.3s ease;
+    }
+    .rate-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(252,163,17,0.55);
+    }
+
+    /* RIGHT COLUMN */
+    .pricing-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ROLACE CARD */
+    .DW-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .DW-card:hover {
+      border-color: rgba(252,163,17,0.22);
+      transform: translateY(-3px);
+    }
+    .DW-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--amber);
+      opacity: 0.5;
+    }
+    .DW-inner {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .DW-img {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid rgba(252,163,17,0.2);
+      flex-shrink: 0;
+    }
+    .DW-badge {
+      display: inline-block;
+      background: rgba(252,163,17,0.15);
+      border: 1px solid rgba(252,163,17,0.3);
+      border-radius: 999px;
+      padding: 3px 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .DW-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    .DW-desc {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    .DW-desc strong { color: var(--amber); }
+
+    /* PAYMENT METHODS */
+    .methods-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .methods-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .methods-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .method {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+    .method:hover {
+      border-color: rgba(252,163,17,0.25);
+      background: rgba(252,163,17,0.05);
+      transform: translateY(-2px);
+    }
+    .method img {
+      width: 32px; height: 32px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .method-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .method-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* HOW IT WORKS */
+    .how-section {
+      margin: 0 0 70px;
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--bg-card);
+      margin-top: 36px;
+    }
+    .how-item {
+      padding: 32px 24px;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+      position: relative;
+    }
+    .how-item:last-child { border-right: none; }
+    .how-item:hover { background: rgba(252,163,17,0.03); }
+    .how-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: rgba(252,163,17,0.2);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .how-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+    .how-desc {
+      color: var(--muted);
+      font-size: 0.83rem;
+      line-height: 1.6;
+    }
+
+    /* FAQ */
+    .faq-section { margin: 0 0 70px; }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+      transition: border-color 0.3s;
+    }
+    .faq-item:hover { border-color: rgba(252,163,17,0.18); }
+    .faq-q {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .faq-a {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+    .faq-a strong { color: var(--text); }
+
+    /* CONTACT */
+    .contact-block {
+      background: linear-gradient(135deg, rgba(252,163,17,0.07) 0%, transparent 60%);
+      border: 1px solid rgba(252,163,17,0.2);
+      border-radius: var(--radius);
+      padding: 56px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .contact-block h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+    .contact-block p { color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+    .contact-email {
+      display: block;
+      margin-top: 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--amber);
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 1.8rem;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      background: var(--amber);
+      color: #080809;
+      box-shadow: 0 0 28px rgba(252,163,17,0.3);
+      white-space: nowrap;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 45px rgba(252,163,17,0.5);
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+
+    @media (max-width: 900px) {
+      .pricing-section { grid-template-columns: 1fr; }
+      .rate-features { grid-template-columns: 1fr; }
+      .how-grid { grid-template-columns: repeat(2,1fr); }
+      .how-item { border-bottom: 1px solid var(--border); }
+      .faq-grid { grid-template-columns: 1fr; }
+      .contact-block { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="eyebrow fade-in delay-1">
+      <span class="eyebrow-dot"></span>
+      Transparent Pricing
+    </div>
+    <h1 class="fade-in delay-2">
+      One Rate.<br>
+      <span class="accent">No Surprises.</span>
+    </h1>
+    <p class="hero-sub fade-in delay-3">
+      A single, honest hourly rate for all projects. No tiers, no upsells, no hidden costs. Just <strong>professional Roblox development</strong> at a fair price.
+    </p>
+    <div class="badge-row fade-in delay-3">
+      <span class="badge">50% Deposit to Start</span>
+      <span class="badge">Full IP Transfer</span>
+      <span class="badge">Invoice on Every Payment</span>
+      <span class="badge">YouSign Contracts</span>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- PRICING -->
+  <div class="pricing-section" style="margin-top:70px;">
+
+    <div class="rate-card">
+      <span class="rate-pill">Standard Rate</span>
+      <div class="rate-display">
+        <span class="rate-dollar">$</span>
+        <span class="rate-number">16</span>
+        <span class="rate-unit">/ hour</span>
+      </div>
+      <div class="rate-title">Every project. Every scope. One rate.</div>
+      <p class="rate-desc">Whether you need a small script, a full game backend, or a complete open-world experience, the rate stays the same. What changes is the hours, and we always quote transparently before we begin.</p>
+      <ul class="rate-features">
+        <li>Custom scripting from scratch</li>
+        <li>Terrain and world building</li>
+        <li>UI design and implementation</li>
+        <li>Game backend and datastores</li>
+        <li>Regular progress updates</li>
+        <li>Legal contract via YouSign</li>
+        <li>Official invoices per payment</li>
+        <li>Full IP transfer on completion</li>
+        <li>14-day post-delivery support</li>
+        <li>NDA available on request</li>
+      </ul>
+      <a class="rate-cta">
+        Get a Quote
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="pricing-right">
+
+      <!-- DW -->
+      <div class="DW-card">
+        <div class="DW-inner">
+          <img src="https://i.imgur.com/FRiyJyk.png" alt="DW" class="DW-img">
+          <div>
+            <div class="DW-badge">Darkwaters Member</div>
+            <div class="DW-title">Member of Darkwaters?</div>
+            <div class="DW-desc">You get a <strong>15% discount</strong> applied to all projects. Mention it when you reach out.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENT METHODS -->
+      <div class="methods-card">
+        <div class="methods-label">Accepted Payment Methods</div>
+        <div class="methods-grid">
+          <a href="#" class="method">
+            <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal">
+            <div>
+              <div class="method-name">PayPal</div>
+              <div class="method-sub">Recommended</div>
+            </div>
+          </a>
+          <a href="#" class="method">
+            <img src="https://storage.ko-fi.com/cdn/logomarkLogo.png" alt="Ko-fi">
+            <div>
+              <div class="method-name">Ko-fi</div>
+              <div class="method-sub">Accepted</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- QUICK FACTS -->
+      <div class="methods-card">
+        <div class="methods-label">Payment Structure</div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--border);">
+            <span style="font-size:0.88rem; color:var(--muted);">Upfront Deposit</span>
+            <span style="font-weight:700; color:var(--amber);">50%</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--border);">
+            <span style="font-size:0.88rem; color:var(--muted);">Balance Due</span>
+            <span style="font-weight:700; color:var(--text);">On delivery</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--border);">
+            <span style="font-size:0.88rem; color:var(--muted);">Installment Plans</span>
+            <span style="font-weight:700; color:var(--text);">3–5 months</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0;">
+            <span style="font-size:0.88rem; color:var(--muted);">Quote Response</span>
+            <span style="font-weight:700; color:var(--text);">Within 24h</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-section">
+    <div class="section-label">The Process</div>
+    <h2 class="section-title">How Payment Works</h2>
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-num">01</div>
+        <div class="how-title">You Send a Brief</div>
+        <div class="how-desc">Describe your project, scope, and timeline. We respond with an estimated hour count and total cost within 24 hours.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">02</div>
+        <div class="how-title">Contract Signed</div>
+        <div class="how-desc">A formal contract is issued and signed via YouSign. Everything is documented and legally binding before work begins.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">03</div>
+        <div class="how-title">50% Deposit</div>
+        <div class="how-desc">A 50% upfront deposit secures your spot and starts the project. An official invoice is issued immediately.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">04</div>
+        <div class="how-title">Delivery & Transfer</div>
+        <div class="how-desc">Final payment is collected on delivery. Full IP ownership is transferred to you the moment payment clears.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="section-label">Common Questions</div>
+    <h2 class="section-title">Pricing FAQ</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-q">Is the hourly rate fixed for all project types?</div>
+        <div class="faq-a">Yes. Whether it's a quick UI script or a full game, the rate is always <strong>$16/hour</strong>. The quote reflects the estimated hours for your specific scope.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I pay in installments?</div>
+        <div class="faq-a">Yes. For larger projects, payments can be spread across <strong>3 to 5 months</strong> depending on project size and agreement. Each installment comes with a signed invoice.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens if scope changes mid-project?</div>
+        <div class="faq-a">Minor adjustments are handled as part of the project. Major changes that significantly differ from the original purchase order may incur an additional fee of <strong>around 10%</strong>.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Are refunds available?</div>
+        <div class="faq-a">Once development has started, refunds are not provided as custom digital work cannot be reversed. Partial refunds may be considered if <strong>minimal progress</strong> has been made, at our discretion.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">When do I receive ownership of the work?</div>
+        <div class="faq-a">Full intellectual property is transferred to you <strong>upon final payment</strong>. After transfer, Quantum Digitals retains no claim over the delivered work.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do you offer a DW member discount?</div>
+        <div class="faq-a">Yes. Members of DW receive a <strong>15% discount</strong> across all projects. Simply mention your membership when reaching out for a quote.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-block">
+    <div>
+      <div class="section-label">Ready to Start?</div>
+      <h2>Request a Quote</h2>
+      <p>Send us your project details and we'll get back to you with an honest, detailed estimate within 24 hours.</p>
+      <span class="contact-email">contact@quantum-digitals.com</span>
+    </div>
+    <a class="btn">Get a Quote</a>
+  </div>
+
+</div>
+
+<footer>
+  &copy; <span id="yr"></span> Quantum Digitals &middot; All Rights Reserved
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.rate-card, .DW-card, .methods-card, .how-item, .faq-item, .contact-block').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
