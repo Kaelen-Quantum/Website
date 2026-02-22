@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quantum Digitals | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080809;
+      --bg-card: #0e0e10;
+      --text: #f0ede8;
+      --muted: #888;
+      --amber: #fca311;
+      --amber-dim: rgba(252,163,17,0.08);
+      --border: rgba(255,255,255,0.06);
+      --radius: 18px;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .ambient {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-1 {
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(252,163,17,0.1) 0%, transparent 65%);
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .ambient-2 {
+      bottom: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(252,163,17,0.06) 0%, transparent 65%);
+      animation: drift 9s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to { transform: translate(30px,20px) scale(1.08); }
+    }
+
+    /* WRAP */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 100px 0 70px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.4rem;
+    }
+    .eyebrow-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--amber); }
+
+    .hero-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 2rem;
+    }
+
+    .pill-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.2);
+      border-radius: 999px;
+      padding: 7px 16px;
+      font-size: 0.82rem;
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    /* DIVIDER */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(252,163,17,0.25), transparent);
+      margin: 0;
+    }
+
+    /* FILTERS */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 40px 0 36px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 8px 20px;
+      border-radius: 999px;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: #080809;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+      transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(252,163,17,0.07), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(252,163,17,0.25);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(252,163,17,0.08);
+    }
+    .card:hover::after { opacity: 1; }
+
+    /* NDA card style */
+    .card.nda {
+      opacity: 0.6;
+      filter: grayscale(0.4);
+    }
+    .card.nda:hover { opacity: 0.75; }
+
+    .thumb {
+      position: relative;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: #111;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease, filter 0.5s ease;
+    }
+    .card:hover .thumb img {
+      transform: scale(1.08);
+      filter: brightness(1.15);
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: rgba(8,8,9,0.75);
+      border: 1px solid rgba(252,163,17,0.35);
+      backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--amber);
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+    }
+    .status-dot.ongoing {
+      background: #4ade80;
+      box-shadow: 0 0 8px rgba(74,222,128,0.6);
+      animation: blink 2s ease-in-out infinite;
+    }
+    .status-dot.ended {
+      background: var(--muted);
+    }
+
+    .card-body {
+      padding: 18px 20px;
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-tags {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+    }
+
+    .card-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+    .meta-item {}
+    .meta-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .meta-val {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .meta-val.amber { color: var(--amber); }
+
+    .card-stack {
+      grid-column: 1 / -1;
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+    .card-stack span { color: var(--text); font-weight: 500; }
+
+    /* STATS BAR */
+    .stat-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--bg-card);
+      margin: 70px 0;
+    }
+    .stat-item {
+      padding: 32px 20px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: rgba(252,163,17,0.04); }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--amber);
+      display: block;
+      line-height: 1;
+    }
+    .stat-lbl {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+
+    /* SKILLS */
+    .skills-section {
+      margin: 0 0 70px;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 4vw, 3.2rem);
+      letter-spacing: 0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      transition: border-color 0.3s;
+    }
+    .skill-card:hover { border-color: rgba(252,163,17,0.2); }
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .skill-name { font-weight: 600; font-size: 0.92rem; }
+    .skill-pct { font-size: 0.85rem; color: var(--amber); font-weight: 700; }
+    .bar {
+      background: rgba(255,255,255,0.05);
+      border-radius: 999px;
+      height: 6px;
+      overflow: hidden;
+    }
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--amber), #d68800);
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* TIMELINE */
+    .timeline-section { margin: 0 0 70px; }
+    .tl-list { margin-top: 24px; display: flex; flex-direction: column; gap: 0; }
+    .tl-year {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0;
+    }
+    .tl-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tl-yr-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--amber);
+      line-height: 1;
+      padding-top: 4px;
+    }
+    .tl-vline {
+      width: 2px;
+      flex: 1;
+      background: linear-gradient(to bottom, rgba(252,163,17,0.3), rgba(252,163,17,0.05));
+      margin: 8px 0;
+    }
+    .tl-year:last-child .tl-vline { display: none; }
+    .tl-right {
+      padding: 0 0 36px 24px;
+      padding-top: 6px;
+    }
+    .tl-projects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tl-tag {
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.15);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      color: var(--text);
+    }
+
+    /* CONTACT */
+    .contact-block {
+      background: linear-gradient(135deg, rgba(252,163,17,0.07) 0%, transparent 60%);
+      border: 1px solid rgba(252,163,17,0.2);
+      border-radius: var(--radius);
+      padding: 56px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .contact-block h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+    .contact-block p { color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+    .contact-email {
+      display: block;
+      margin-top: 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--amber);
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 1.8rem;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      background: var(--amber);
+      color: #080809;
+      box-shadow: 0 0 28px rgba(252,163,17,0.3);
+      white-space: nowrap;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 45px rgba(252,163,17,0.5);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      .stat-bar { grid-template-columns: repeat(2,1fr); }
+      .stat-item { border-bottom: 1px solid var(--border); }
+      .contact-block { flex-direction: column; text-align: center; }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="eyebrow fade-in delay-1">
+      <span class="eyebrow-dot"></span>
+      Roblox Game Studio
+    </div>
+    <h1 class="fade-in delay-2">Our past <span>projects</span></h1>
+    <p class="hero-sub fade-in delay-2">Every project below represents real work, real clients, and real results. Built with 11 years of independent Roblox expertise.</p>
+    <div class="pill-row fade-in delay-3">
+      <span class="pill"><span class="eyebrow-dot"></span> <span class="total-count">0</span> Projects Delivered</span>
+      <span class="pill">11 Years Experience</span>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="roblox">Roblox</button>
+    <button class="filter-btn" data-filter="blender">Blender</button>
+    <button class="filter-btn" data-filter="photoshop">Photoshop</button>
+  </div>
+
+  <!-- GRID -->
+  <section class="grid" id="grid">
+
+    <a class="card" href="#" data-cats="roblox photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/LDHrF1LZ/sjmainlogo.png" alt="Sengoku-Jidai" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Sengoku-Jidai</div>
+        <div class="card-tags">Rolace Business</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Sengoku-Jidai</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">Completed</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">Long-term</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Photoshop, Blink</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox photoshop" data-status="ongoing">
+      <div class="thumb">
+        <img src="https://i.ibb.co/23VPCH7n/halo-interactive.png" alt="Halo Interactive" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Halo Interactive</div>
+        <div class="card-tags">JasonRolace, ZayrRolace</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Halo Interactive</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">On Going</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$2,306+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Photoshop</span></div>
+        </div>
+      </div>
+    </a>
+
+ <a class="card" href="#" data-cats="roblox" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.imgur.com/FRiyJyk.png" alt="DarkWaters" />
+        <span class="badge">Roblox • 2025</span>
+           <span class="status-dot ongoing"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">DarkWaters</div>
+        <div class="card-tags">DarkWaters</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">DarkWaters</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val" style="color:#4ade80">Ongoing</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">Completed</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$1,936+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox blender photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/FkpPry8Q/crown-of-yggdrasil-icon.png" alt="Crown Of Yggdrasil" />
+        <span class="badge">Roblox • 2025</span>
+           <span class="status-dot ongoing"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Crown Of Yggdrasil</div>
+        <div class="card-tags">JasonRolace, ZayrRolace</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Crown Of Yggdrasil</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val" style="color:#4ade80">Ongoing</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">Completed</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$1,600+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Blender, BrushPainter, Photoshop</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox blender photoshop" data-status="ongoing">
+      <div class="thumb">
+        <img src="https://i.ibb.co/RG52K8jz/supm.jpg" alt="Kryptonian Simulator" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ongoing"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Kryptonian Simulator</div>
+        <div class="card-tags">Kaelen</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Quantum Digitals</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val" style="color:#4ade80">Ongoing</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">On Going</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$3,000+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Blender, BrushPainter, Photoshop, SmartBones V2</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox blender photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/rG8jMKpM/no-Filter-7.png" alt="A Witcher's Tale" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">A Witcher's Tale</div>
+        <div class="card-tags">JasonRolace</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">AWT</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">4 weeks</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$568+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Blender, BrushPainter, Photoshop</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox blender photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/b0Jv7ZJ/no-Filter-6.png" alt="Blood & Steam" />
+        <span class="badge">Roblox • 2024</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Blood &amp; Steam</div>
+        <div class="card-tags">Kane</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">KaneApple</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">5 months</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$500+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Blender, BrushPainter, Photoshop</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox blender photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/TM4mJQNk/no-Filter-3-1.png" alt="Realm Of Medieval Germany" />
+        <span class="badge">Roblox • 2022</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Realm Of Medieval Germany</div>
+        <div class="card-tags">Astor</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">The Rolace</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">3 years</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$600+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Blender, BrushPainter, Photoshop</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox blender photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/8D3fPFrS/no-Filter-5.webp" alt="Roman Empire Roleplay" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Roman Empire Roleplay</div>
+        <div class="card-tags">PJC</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Sen. Pop. Romanus</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">4 months</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$500+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Blender, BrushPainter, Photoshop</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/qMpxD6J0/no-Filter-4.png" alt="The Rolace Club" />
+        <span class="badge">Roblox • 2024</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">The Rolace Club</div>
+        <div class="card-tags">Glorified</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">The Rolace</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">2 months</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$430+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Photoshop</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/mrbFth5d/no-Filter-10.png" alt="Swords And Sigils" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Swords And Sigils</div>
+        <div class="card-tags">S&amp;S</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">S&amp;S</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">3 months</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$190+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/FZZqZSm/noFilter.png" alt="Supernatural" />
+        <span class="badge">Roblox • 2024</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Supernatural</div>
+        <div class="card-tags">Josh</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Hydrosanctum Studio</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">3 months</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$390+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/QFrzZfSc/image.jpg" alt="Kingdom Of Niilfgard" />
+        <span class="badge">Roblox • 2024</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Kingdom Of Niilfgard</div>
+        <div class="card-tags">Niilfgard</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">EON</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">2 months</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$290+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox" data-status="ended">
+      <div class="thumb">
+        <img src="https://tr.rbxcdn.com/180DAY-3df345553b9e7c1c982a890b3d0e08a0/150/150/Image/Webp/noFilter" alt="Race Stars" />
+        <span class="badge">Roblox • 2024</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Race Stars</div>
+        <div class="card-tags">Race Stars</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Race Stars</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">1 month</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$118+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://tr.rbxcdn.com/180DAY-7b2bb0533d46757f9446295da3a6b747/150/150/Image/Webp/noFilter" alt="Tenebris" />
+        <span class="badge">Roblox • 2024</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Tenebris</div>
+        <div class="card-tags">~Perseverance</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">~Perseverance</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">1 month</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$40+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Photoshop</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox photoshop" data-status="ended">
+      <div class="thumb">
+        <img src="https://tr.rbxcdn.com/180DAY-37f7553d77e914260d0820c6338b41df/150/150/Image/Webp/noFilter" alt="Bread Battle" />
+        <span class="badge">Roblox • 2024</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Bread Battle</div>
+        <div class="card-tags">Bread Battle</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Bread Battle</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">2 weeks</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$300+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, Photoshop</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox" data-status="ended">
+      <div class="thumb">
+        <img src="https://i.ibb.co/yBKndMSm/Chat-GPT-Image-2-ao-t-2025-21-00-42.png" alt="Saber Battle" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Saber Battle</div>
+        <div class="card-tags">Skyreez_</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">None</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">3 weeks</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$305+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox" data-status="ended">
+      <div class="thumb">
+        <img src="https://tr.rbxcdn.com/180DAY-6f9a6fe24bc53f9e159e96f84d1e8ddc/150/150/Image/Webp/noFilter" alt="Shark Punching Center" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Shark Punching Center</div>
+        <div class="card-tags">SPC</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">SPC</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">3 days</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$16+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox" data-status="ended">
+      <div class="thumb">
+        <img src="" alt="Sengoku-Shi" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Sengoku-Shi</div>
+        <div class="card-tags">Sengoku-Shi</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Sengoku-Shi</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">On Going</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">2 days</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$50+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox" data-status="ended">
+      <div class="thumb">
+        <img src="https://tr.rbxcdn.com/180DAY-04178cffe67a73f2a1a7018d8332af84/150/150/Image/Webp/noFilter" alt="Rocamp Hangout" />
+        <span class="badge">Roblox • 2024</span>
+        <span class="status-dot ended"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Rocamp Hangout</div>
+        <div class="card-tags">Rocamp Hangout</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">Rocamp Hangout</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">5 days</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$190+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio, LMMS</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="#" data-cats="roblox" data-status="ongoing">
+      <div class="thumb">
+        <img src="https://tr.rbxcdn.com/180DAY-2ef56ad3de767060876dff500abfddb5/150/150/Image/Webp/noFilter" alt="SCP Tartarus" />
+        <span class="badge">Roblox • 2025</span>
+        <span class="status-dot ongoing"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">SCP Tartarus</div>
+        <div class="card-tags">SCP Tartarus</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Group</div><div class="meta-val">SCP Tartarus</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">Ended</div></div>
+          <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">2 months+</div></div>
+          <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-val amber">$1,000+</div></div>
+          <div class="card-stack">Stack: <span>Roblox Studio</span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- NDA PROJECTS -->
+    <a class="card nda" href="#" data-cats="roblox" data-status="nda">
+      <div class="thumb">
+        <img src="https://i.ibb.co/yBKndMSm/Chat-GPT-Image-2-ao-t-2025-21-00-42.png" alt="NDA" />
+        <span class="badge" style="color:var(--muted); border-color:rgba(255,255,255,0.15)">Roblox • NDA</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title" style="color:var(--muted)">Project Under NDA</div>
+        <div class="card-tags">Confidential</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Details</div><div class="meta-val" style="color:var(--muted)">Restricted</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val" style="color:var(--muted)">NDA</div></div>
+        </div>
+      </div>
+    </a>
+    <a class="card nda" href="#" data-cats="roblox" data-status="nda">
+      <div class="thumb">
+        <img src="https://i.ibb.co/yBKndMSm/Chat-GPT-Image-2-ao-t-2025-21-00-42.png" alt="NDA" />
+        <span class="badge" style="color:var(--muted); border-color:rgba(255,255,255,0.15)">Roblox • NDA</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title" style="color:var(--muted)">Project Under NDA</div>
+        <div class="card-tags">Confidential</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Details</div><div class="meta-val" style="color:var(--muted)">Restricted</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val" style="color:var(--muted)">NDA</div></div>
+        </div>
+      </div>
+    </a>
+    <a class="card nda" href="#" data-cats="roblox" data-status="nda">
+      <div class="thumb">
+        <img src="https://i.ibb.co/yBKndMSm/Chat-GPT-Image-2-ao-t-2025-21-00-42.png" alt="NDA" />
+        <span class="badge" style="color:var(--muted); border-color:rgba(255,255,255,0.15)">Roblox • NDA</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title" style="color:var(--muted)">Project Under NDA</div>
+        <div class="card-tags">Confidential</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Details</div><div class="meta-val" style="color:var(--muted)">Restricted</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val" style="color:var(--muted)">NDA</div></div>
+        </div>
+      </div>
+    </a>
+    <a class="card nda" href="#" data-cats="roblox" data-status="nda">
+      <div class="thumb">
+        <img src="https://i.ibb.co/yBKndMSm/Chat-GPT-Image-2-ao-t-2025-21-00-42.png" alt="NDA" />
+        <span class="badge" style="color:var(--muted); border-color:rgba(255,255,255,0.15)">Roblox • NDA</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title" style="color:var(--muted)">Project Under NDA</div>
+        <div class="card-tags">Confidential</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Details</div><div class="meta-val" style="color:var(--muted)">Restricted</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val" style="color:var(--muted)">NDA</div></div>
+        </div>
+      </div>
+    </a>
+    <a class="card nda" href="#" data-cats="roblox" data-status="nda">
+      <div class="thumb">
+        <img src="https://i.ibb.co/yBKndMSm/Chat-GPT-Image-2-ao-t-2025-21-00-42.png" alt="NDA" />
+        <span class="badge" style="color:var(--muted); border-color:rgba(255,255,255,0.15)">Roblox • NDA</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title" style="color:var(--muted)">Project Under NDA</div>
+        <div class="card-tags">Confidential</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Details</div><div class="meta-val" style="color:var(--muted)">Restricted</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val" style="color:var(--muted)">NDA</div></div>
+        </div>
+      </div>
+    </a>
+    <a class="card nda" href="#" data-cats="roblox" data-status="nda">
+      <div class="thumb">
+        <img src="https://i.ibb.co/yBKndMSm/Chat-GPT-Image-2-ao-t-2025-21-00-42.png" alt="NDA" />
+        <span class="badge" style="color:var(--muted); border-color:rgba(255,255,255,0.15)">Roblox • NDA</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title" style="color:var(--muted)">Project Under NDA</div>
+        <div class="card-tags">Confidential</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Details</div><div class="meta-val" style="color:var(--muted)">Restricted</div></div>
+          <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val" style="color:var(--muted)">NDA</div></div>
+        </div>
+      </div>
+    </a>
+
+  </section>
+
+  <!-- STATS -->
+  <div class="stat-bar" id="stats">
+    <div class="stat-item">
+      <span class="stat-num" data-target="27">0</span>
+      <div class="stat-lbl">Projects Delivered</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="11">0</span>
+      <div class="stat-lbl">Years of Experience</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="100">0</span>
+      <div class="stat-lbl">Client Satisfaction %</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="15">0</span>
+      <div class="stat-lbl">Clients Worked With</div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="skills-section">
+    <div class="section-label">Tech Stack</div>
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-grid" id="skills-grid">
+      <div class="skill-card" data-pct="95">
+        <div class="skill-header"><span class="skill-name">Roblox Studio</span><span class="skill-pct">95%</span></div>
+        <div class="bar"><div class="fill"></div></div>
+      </div>
+      <div class="skill-card" data-pct="80">
+        <div class="skill-header"><span class="skill-name">Photoshop</span><span class="skill-pct">80%</span></div>
+        <div class="bar"><div class="fill"></div></div>
+      </div>
+      <div class="skill-card" data-pct="65">
+        <div class="skill-header"><span class="skill-name">Blink (Scripting)</span><span class="skill-pct">65%</span></div>
+        <div class="bar"><div class="fill"></div></div>
+      </div>
+      <div class="skill-card" data-pct="50">
+        <div class="skill-header"><span class="skill-name">SmartBones V2</span><span class="skill-pct">50%</span></div>
+        <div class="bar"><div class="fill"></div></div>
+      </div>
+      <div class="skill-card" data-pct="30">
+        <div class="skill-header"><span class="skill-name">BrushPainter</span><span class="skill-pct">30%</span></div>
+        <div class="bar"><div class="fill"></div></div>
+      </div>
+      <div class="skill-card" data-pct="20">
+        <div class="skill-header"><span class="skill-name">Blender</span><span class="skill-pct">20%</span></div>
+        <div class="bar"><div class="fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline-section">
+    <div class="section-label">History</div>
+    <h2 class="section-title">Experience Timeline</h2>
+    <div class="tl-list">
+      <div class="tl-year">
+        <div class="tl-left"><div class="tl-yr-label">2025</div><div class="tl-vline"></div></div>
+        <div class="tl-right">
+          <div class="tl-projects">
+            <span class="tl-tag">Sengoku-Jidai</span>
+            <span class="tl-tag">Halo Interactive</span>
+            <span class="tl-tag">Crown Of Yggdrasil</span>
+            <span class="tl-tag">Kryptonian Simulator</span>
+            <span class="tl-tag">A Witcher's Tale</span>
+            <span class="tl-tag">Roman Empire Roleplay</span>
+            <span class="tl-tag">Dark Waters</span>
+            <span class="tl-tag">Saber Battle</span>
+            <span class="tl-tag">Shark Punching Center</span>
+            <span class="tl-tag">Sengoku-Shi</span>
+            <span class="tl-tag">SCP Tartarus</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-year">
+        <div class="tl-left"><div class="tl-yr-label">2024</div><div class="tl-vline"></div></div>
+        <div class="tl-right">
+          <div class="tl-projects">
+            <span class="tl-tag">Blood &amp; Steam</span>
+            <span class="tl-tag">The Rolace Club</span>
+            <span class="tl-tag">Supernatural</span>
+            <span class="tl-tag">Kingdom Of Niilfgard</span>
+            <span class="tl-tag">Race Stars</span>
+            <span class="tl-tag">Tenebris</span>
+            <span class="tl-tag">Bread Battle</span>
+            <span class="tl-tag">Rocamp Hangout</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-year">
+        <div class="tl-left"><div class="tl-yr-label">2022</div><div class="tl-vline"></div></div>
+        <div class="tl-right">
+          <div class="tl-projects">
+            <span class="tl-tag">Realm Of Medieval Germany</span>
+            <span class="tl-tag">Swords And Sigils</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-block">
+    <div>
+      <div class="section-label">Get in Touch</div>
+      <h2>Let's Build Your Game</h2>
+      <p>Send your project summary and get a professional quote within 24 hours.</p>
+      <span class="contact-email">contact@quantum-digitals.com</span>
+    </div>
+    <a class="btn">Email Us Now</a>
+  </div>
+
+</div>
+
+<footer>
+  &copy; <span id="yr"></span> Quantum Digitals &middot; All Rights Reserved
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Count non-NDA cards for pill
+  const allCards = document.querySelectorAll('.grid .card:not(.nda)');
+  document.querySelector('.total-count').textContent = document.querySelectorAll('.grid .card').length;
+
+  // Filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.grid .card').forEach(card => {
+        if (f === 'all' || card.dataset.cats.includes(f)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Intersection observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.card, .stat-item, .skill-card, .tl-year, .contact-block').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+
+  // Stat counter animation
+  let statsAnimated = false;
+  const statsObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !statsAnimated) {
+      statsAnimated = true;
+      document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        let count = 0;
+        const step = Math.ceil(target / 60);
+        const timer = setInterval(() => {
+          count = Math.min(count + step, target);
+          el.textContent = count;
+          if (count >= target) clearInterval(timer);
+        }, 20);
+      });
+    }
+  }, { threshold: 0.3 });
+  statsObserver.observe(document.getElementById('stats'));
+
+  // Skill bars animation
+  let skillsAnimated = false;
+  const skillsObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !skillsAnimated) {
+      skillsAnimated = true;
+      document.querySelectorAll('.skill-card').forEach(card => {
+        const pct = card.dataset.pct;
+        setTimeout(() => {
+          card.querySelector('.fill').style.width = pct + '%';
+        }, 100);
+      });
+    }
+  }, { threshold: 0.2 });
+  skillsObserver.observe(document.getElementById('skills-grid'));
+</script>
+</body>
+</html>
