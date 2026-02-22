@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quantum Digitals | Expertise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080809;
+      --bg-card: #0e0e10;
+      --text: #f0ede8;
+      --muted: #888;
+      --amber: #fca311;
+      --amber-dim: rgba(252,163,17,0.08);
+      --border: rgba(255,255,255,0.06);
+      --radius: 18px;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .ambient {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-1 {
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(252,163,17,0.1) 0%, transparent 65%);
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .ambient-2 {
+      bottom: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(252,163,17,0.06) 0%, transparent 65%);
+      animation: drift 9s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to { transform: translate(30px,20px) scale(1.08); }
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 100px 0 80px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.4rem;
+    }
+    .eyebrow-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 .accent { color: var(--amber); }
+    .hero h1 .outline {
+      -webkit-text-stroke: 1.5px rgba(240,237,232,0.22);
+      color: transparent;
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      max-width: 580px;
+      margin: 0 auto 2rem;
+    }
+    .hero-sub strong { color: var(--text); }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.2);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(252,163,17,0.25), transparent);
+    }
+
+    /* SECTION LABELS */
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .section-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+      max-width: 560px;
+    }
+
+    /* ── CORE FOCUS BLOCK ── */
+    .focus-block {
+      margin: 70px 0;
+      background: linear-gradient(135deg, rgba(252,163,17,0.09) 0%, rgba(252,163,17,0.02) 50%, transparent 100%);
+      border: 1px solid rgba(252,163,17,0.25);
+      border-radius: var(--radius);
+      padding: 60px 56px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .focus-block::before {
+      content: 'SCRIPTING';
+      position: absolute;
+      right: -20px; top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 9rem;
+      color: rgba(252,163,17,0.04);
+      letter-spacing: 0.1em;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .focus-label {
+      display: inline-block;
+      background: var(--amber);
+      color: #080809;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+    }
+
+    .focus-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4rem);
+      line-height: 0.95;
+      margin-bottom: 1.2rem;
+    }
+    .focus-title span { color: var(--amber); }
+
+    .focus-body {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+    .focus-body strong { color: var(--text); }
+
+    .focus-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .focus-point {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .focus-point:hover {
+      border-color: rgba(252,163,17,0.2);
+      background: rgba(252,163,17,0.04);
+    }
+    .focus-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .focus-point-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .focus-point-desc {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    /* NO AI BANNER */
+    .no-ai-banner {
+      margin: 0 0 70px;
+      border: 1px solid rgba(252,163,17,0.18);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding: 28px 36px;
+      overflow: hidden;
+      position: relative;
+    }
+    .no-ai-banner::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--amber);
+    }
+    .no-ai-icon {
+      font-size: 2.4rem;
+      flex-shrink: 0;
+    }
+    .no-ai-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .no-ai-title span { color: var(--amber); }
+    .no-ai-body {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.65;
+      max-width: 680px;
+    }
+    .no-ai-body strong { color: var(--text); }
+
+    /* ── THREE PILLARS ── */
+    .pillars-section { margin: 0 0 80px; }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .pillar {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .pillar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(252,163,17,0.08), transparent 65%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .pillar:hover {
+      transform: translateY(-6px);
+      border-color: rgba(252,163,17,0.25);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 30px rgba(252,163,17,0.07);
+    }
+    .pillar:hover::after { opacity: 1; }
+
+    .pillar.primary {
+      border-color: rgba(252,163,17,0.3);
+      background: linear-gradient(160deg, rgba(252,163,17,0.07), var(--bg-card) 60%);
+    }
+
+    .pillar-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4.5rem;
+      color: rgba(252,163,17,0.12);
+      line-height: 1;
+      margin-bottom: 8px;
+      transition: color 0.4s;
+    }
+    .pillar:hover .pillar-num { color: rgba(252,163,17,0.2); }
+
+    .pillar-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .pillar.primary .pillar-icon {
+      background: rgba(252,163,17,0.15);
+      border-color: rgba(252,163,17,0.4);
+    }
+
+    .pillar-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    .pillar.primary .pillar-tag {
+      background: rgba(252,163,17,0.15);
+      border: 1px solid rgba(252,163,17,0.3);
+      border-radius: 999px;
+      padding: 3px 10px;
+    }
+
+    .pillar h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .pillar p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .pillar-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pillar-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .pillar-features li::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+      margin-top: 6px;
+      opacity: 0.6;
+    }
+    .pillar.primary .pillar-features li::before { opacity: 1; }
+
+    /* ── ENGINE MASTERY ── */
+    .engine-section { margin: 0 0 80px; }
+
+    .engine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .engine-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .engine-card:hover {
+      border-color: rgba(252,163,17,0.2);
+      transform: translateY(-3px);
+    }
+    .engine-card-icon { font-size: 1.6rem; margin-bottom: 12px; }
+    .engine-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .engine-card p {
+      color: var(--muted);
+      font-size: 0.83rem;
+      line-height: 1.6;
+    }
+
+    /* ── PROCESS STRIP ── */
+    .process-strip {
+      margin: 0 0 80px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 36px;
+      position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 22px; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(252,163,17,0.3), transparent);
+      z-index: 0;
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      padding: 0 12px;
+    }
+    .ps-dot {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid rgba(252,163,17,0.4);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--amber);
+    }
+    .ps-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+    .ps-desc {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    /* CONTACT */
+    .contact-block {
+      background: linear-gradient(135deg, rgba(252,163,17,0.07) 0%, transparent 60%);
+      border: 1px solid rgba(252,163,17,0.2);
+      border-radius: var(--radius);
+      padding: 56px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .contact-block h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+    .contact-block p { color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+    .contact-email {
+      display: block;
+      margin-top: 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--amber);
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 1.8rem;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      background: var(--amber);
+      color: #080809;
+      box-shadow: 0 0 28px rgba(252,163,17,0.3);
+      white-space: nowrap;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 45px rgba(252,163,17,0.5);
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+
+    @media (max-width: 900px) {
+      .focus-block { grid-template-columns: 1fr; }
+      .focus-block::before { display: none; }
+      .pillars-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: repeat(2,1fr); gap: 24px; }
+      .process-steps::before { display: none; }
+      .contact-block { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="eyebrow fade-in delay-1">
+      <span class="eyebrow-dot"></span>
+      What We Do
+    </div>
+    <h1 class="fade-in delay-2">
+      Craft. Code.<br>
+      <span class="accent">No Shortcuts.</span>
+    </h1>
+    <p class="hero-sub fade-in delay-3">
+      Eleven years of hands-on experience building inside the Roblox engine. Every line of code written by a human. Every system designed with intent. <strong>No AI. No templates. No compromises.</strong>
+    </p>
+    <div class="badge-row fade-in delay-3">
+      <span class="badge">Scripting First</span>
+      <span class="badge">100% Human-Made</span>
+      <span class="badge">11 Years Deep</span>
+      <span class="badge">Engine-Level Knowledge</span>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- CORE FOCUS -->
+  <div class="focus-block">
+    <div>
+      <span class="focus-label">Primary Discipline</span>
+      <h2 class="focus-title">Scripting is<br><span>Our Core</span></h2>
+      <p class="focus-body">
+        While most studios offer scripting as one item on a checklist, at Quantum Digitals it is the foundation of everything we build. We do not rely on free models, community plugins, or AI-generated code. Every system is architected from the ground up by a developer who has spent <strong>over a decade mastering the Roblox engine</strong> at its lowest level.
+        <br><br>
+        We understand how Roblox processes data, how the client-server boundary works, and how to engineer systems that are <strong>secure, performant, and scalable</strong> by design, not by accident.
+      </p>
+    </div>
+    <div class="focus-right">
+      <div class="focus-point">
+        <div class="focus-icon">🔒</div>
+        <div>
+          <div class="focus-point-title">Secure by Architecture</div>
+          <div class="focus-point-desc">Systems are designed with server authority in mind. Exploits and client manipulation are accounted for from the first line.</div>
+        </div>
+      </div>
+      <div class="focus-point">
+        <div class="focus-icon">⚡</div>
+        <div>
+          <div class="focus-point-title">Performance-Oriented</div>
+          <div class="focus-point-desc">We profile, we optimize, we benchmark. Lag is not acceptable and never shipped.</div>
+        </div>
+      </div>
+      <div class="focus-point">
+        <div class="focus-icon">🧩</div>
+        <div>
+          <div class="focus-point-title">Modular Systems</div>
+          <div class="focus-point-desc">Code is written to be maintainable and extensible. You own it, so you should be able to work with it.</div>
+        </div>
+      </div>
+      <div class="focus-point">
+        <div class="focus-icon">🚫</div>
+        <div>
+          <div class="focus-point-title">Zero AI Generation</div>
+          <div class="focus-point-desc">No ChatGPT, no Copilot, no generated logic. Every system is reasoned through and written by hand.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NO AI BANNER -->
+  <div class="no-ai-banner">
+    <div class="no-ai-icon">🧠</div>
+    <div>
+      <div class="no-ai-title">We Do Not Use <span>Artificial Intelligence</span></div>
+      <div class="no-ai-body">
+        AI-generated code is unpredictable, often insecure, and lacks the contextual depth that real Roblox development demands. Every system we deliver is <strong>written, tested, and validated by a human developer</strong> with deep platform knowledge. You are paying for craftsmanship, not automation.
+      </div>
+    </div>
+  </div>
+
+  <!-- THREE PILLARS -->
+  <div class="pillars-section">
+    <div class="section-label">Our Three Pillars</div>
+    <h2 class="section-title">Full-Spectrum Capability</h2>
+    <p class="section-desc">We cover the full range of what it takes to ship a professional Roblox experience, with scripting at the center of everything.</p>
+
+    <div class="pillars-grid">
+
+      <!-- SCRIPTING - PRIMARY -->
+      <div class="pillar primary">
+        <div class="pillar-num">01</div>
+        <div class="pillar-icon">💻</div>
+        <div class="pillar-tag">Core Focus</div>
+        <h3>Expert Scripting</h3>
+        <p>Our primary discipline. We build complete gameplay systems, backends, and mechanics entirely from scratch using Luau with no AI, no borrowed code, and no shortcuts.</p>
+        <ul class="pillar-features">
+          <li>Custom combat and ability systems</li>
+          <li>Server-authoritative architecture</li>
+          <li>Data persistence and PlayerData systems</li>
+          <li>UI scripting and animation controllers</li>
+          <li>NPC AI and pathfinding logic</li>
+          <li>Anti-exploit design patterns</li>
+          <li>Blink and remote event optimization</li>
+          <li>Full-game backend engineering</li>
+        </ul>
+      </div>
+
+      <!-- TERRAIN -->
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <div class="pillar-icon">🏔</div>
+        <div class="pillar-tag">Environment</div>
+        <h3>Terrain Creation</h3>
+        <p>Hand-sculpted landscapes built with care and intentionality. We use BrushPainter and Roblox's native terrain tools to create immersive, atmospheric worlds that feel alive.</p>
+        <ul class="pillar-features">
+          <li>Large-scale open world terrain</li>
+          <li>Biome design and transitions</li>
+          <li>Natural water and elevation work</li>
+          <li>Atmospheric atmosphere layering</li>
+          <li>Performance-conscious sculpting</li>
+        </ul>
+      </div>
+
+      <!-- BUILDING -->
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <div class="pillar-icon">🏛</div>
+        <div class="pillar-tag">World Design</div>
+        <h3>Building</h3>
+        <p>From medieval fortresses to futuristic cities, we construct detailed, stylistically consistent environments using Studio and Blender for custom meshes where needed.</p>
+        <ul class="pillar-features">
+          <li>Architectural detailing and interiors</li>
+          <li>Custom mesh imports via Blender</li>
+          <li>Optimized part counts and unions</li>
+          <li>Lighting and atmosphere setup</li>
+          <li>Props, set dressing, and storytelling</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ENGINE MASTERY -->
+  <div class="engine-section">
+    <div class="section-label">Engine Knowledge</div>
+    <h2 class="section-title">We Know Roblox</h2>
+    <p class="section-desc">Not just the surface. The internals. The edge cases. The quirks that only 11 years of daily use teaches you.</p>
+
+    <div class="engine-grid">
+      <div class="engine-card">
+        <div class="engine-card-icon">🔁</div>
+        <h4>Client-Server Model</h4>
+        <p>Deep understanding of replication, RemoteEvents, RemoteFunctions, and where logic lives to stay secure and snappy.</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-card-icon">📦</div>
+        <h4>DataStore & Persistence</h4>
+        <p>Reliable player data systems with retry logic, session locking, and backup strategies built in from the start.</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-card-icon">🎯</div>
+        <h4>Physics & Constraints</h4>
+        <p>Roblox physics manipulation, constraint-based rigs, and custom character controllers handled with precision.</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-card-icon">🎨</div>
+        <h4>Rendering & Lighting</h4>
+        <p>Future lighting, atmosphere setup, SurfaceAppearance, and visual polish that ships looking professional.</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-card-icon">🤖</div>
+        <h4>NPC & AI Behaviour</h4>
+        <p>Custom pathfinding stacks, state machines, and enemy logic that goes beyond what Roblox's defaults allow.</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-card-icon">📡</div>
+        <h4>Network Optimization</h4>
+        <p>Bandwidth-conscious event design, delta compression patterns, and tick-rate management for smooth multiplayer.</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-card-icon">🛡</div>
+        <h4>Security Hardening</h4>
+        <p>Server-side validation, sanity checks, and anti-cheat patterns that make exploiting significantly harder.</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-card-icon">🧪</div>
+        <h4>Testing & Debugging</h4>
+        <p>Structured testing workflows, output analysis, and bug reproducibility discipline before anything ships.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW WE WORK -->
+  <div class="process-strip">
+    <div class="section-label">How We Approach Every Project</div>
+    <h2 class="section-title">Our Development Philosophy</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="ps-dot">1</div>
+        <div class="ps-title">Understand First</div>
+        <div class="ps-desc">We study the game's design intent before writing a single line. Architecture decisions made early save weeks later.</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-dot">2</div>
+        <div class="ps-title">Architect, Then Build</div>
+        <div class="ps-desc">Systems are designed on paper before they exist in Studio. We plan data flow, scope, and edge cases upfront.</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-dot">3</div>
+        <div class="ps-title">Build with Craft</div>
+        <div class="ps-desc">Every system is written by hand, tested in isolation, then integrated. No copy-paste, no AI, no guesswork.</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-dot">4</div>
+        <div class="ps-title">Deliver Clean</div>
+        <div class="ps-desc">Code is commented, organized, and handed over in a state you can maintain, extend, and own confidently.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-block">
+    <div>
+      <div class="section-label">Ready to Build?</div>
+      <h2>Let's Talk About Your Game</h2>
+      <p>Tell us what you're building and get a quote within 24 hours. We work with a limited number of clients at a time to ensure quality.</p>
+      <span class="contact-email">contact@quantum-digitals.com</span>
+    </div>
+    <a href="https://www.quantum-digitals.com/pricings" class="btn">Start a Project</a>
+  </div>
+
+</div>
+
+<footer>
+  &copy; <span id="yr"></span> Quantum Digitals &middot; All Rights Reserved
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.focus-block, .no-ai-banner, .pillar, .engine-card, .process-step, .contact-block').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
