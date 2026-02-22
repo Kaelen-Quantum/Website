@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dark Waters — Map Development Plan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080809;
+      --bg-card: #0e0e10;
+      --text: #f0ede8;
+      --muted: #888;
+      --amber: #fca311;
+      --amber-dim: rgba(252,163,17,0.08);
+      --border: rgba(255,255,255,0.06);
+      --radius: 18px;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .ambient {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-1 {
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(252,163,17,0.1) 0%, transparent 65%);
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .ambient-2 {
+      bottom: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(252,163,17,0.06) 0%, transparent 65%);
+      animation: drift 9s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(30px,20px) scale(1.08); }
+    }
+
+    /* LOCK */
+    #lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+    }
+    .lock-bg-1 {
+      position: fixed;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(252,163,17,0.1) 0%, transparent 65%);
+      pointer-events: none;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .lock-bg-2 {
+      position: fixed;
+      bottom: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(252,163,17,0.06) 0%, transparent 65%);
+      pointer-events: none;
+      animation: drift 9s ease-in-out infinite alternate-reverse;
+    }
+    .lock-noise {
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .lock-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 44px;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .lock-wordmark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 6rem);
+      letter-spacing: 0.06em;
+      line-height: 1;
+    }
+    .lock-wordmark .accent { color: var(--amber); }
+    .lock-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    #loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 280px;
+    }
+    .loader-track {
+      width: 100%;
+      height: 2px;
+      background: rgba(252,163,17,0.1);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .loader-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--amber), #d68800);
+      border-radius: 99px;
+      animation: fillBar 4s ease-in-out forwards;
+    }
+    @keyframes fillBar { 0%{width:0%} 60%{width:70%} 100%{width:100%} }
+    .loader-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      animation: breathe 1.6s ease-in-out infinite;
+    }
+    @keyframes breathe { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+
+    #code-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      width: 300px;
+    }
+    .lock-icon-wrap {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+    }
+    .code-hint {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    #code-input {
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--amber);
+      font-size: 1.8rem;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.4em;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    #code-input:focus {
+      border-color: rgba(252,163,17,0.4);
+      box-shadow: 0 0 24px rgba(252,163,17,0.12);
+    }
+    #code-input.shake {
+      border-color: #e84444;
+      animation: shake 0.35s ease;
+    }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+    .unlock-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--amber);
+      border: none;
+      border-radius: 12px;
+      color: #080809;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 0 28px rgba(252,163,17,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .unlock-btn:hover { transform: translateY(-2px); box-shadow: 0 0 44px rgba(252,163,17,0.5); }
+    .err-msg { font-size: 0.78rem; color: #e87070; min-height: 18px; }
+
+    /* LIGHTBOX */
+    #lightbox {
+      position: fixed; inset: 0;
+      background: rgba(8,8,9,0.93);
+      z-index: 8000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(14px);
+      cursor: pointer;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 88vh;
+      border-radius: 14px;
+      border: 1px solid rgba(252,163,17,0.2);
+      box-shadow: 0 0 80px rgba(252,163,17,0.1);
+    }
+
+    /* PAGE */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 0 70px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.4rem;
+    }
+    .eyebrow-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 9vw, 7.5rem);
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+    }
+    .hero h1 .accent { color: var(--amber); }
+    .hero h1 .outline {
+      display: block;
+      -webkit-text-stroke: 1.5px rgba(240,237,232,0.2);
+      color: transparent;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 440px;
+      margin: 0 auto 2rem;
+    }
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.18);
+      border-radius: 999px;
+      padding: 7px 18px;
+      font-size: 0.82rem;
+    }
+    .pill-label { color: var(--muted); font-weight: 500; }
+    .pill-val { color: var(--amber); font-weight: 700; }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(252,163,17,0.25), transparent);
+      margin: 60px 0 70px;
+    }
+
+    .sec-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .sec-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 1.4rem;
+    }
+
+    .stat-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--bg-card);
+      margin-bottom: 70px;
+    }
+    .stat-item {
+      padding: 28px 20px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: rgba(252,163,17,0.04); }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--amber);
+      display: block;
+      line-height: 1;
+    }
+    .stat-lbl { color: var(--muted); font-size: 0.78rem; margin-top: 5px; }
+
+    .phases-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 70px;
+    }
+    .phase-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+    }
+    .phase-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber), #d68800);
+    }
+    .phase-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(252,163,17,0.22);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 28px rgba(252,163,17,0.07);
+    }
+    .phase-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    .phase-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 18px;
+      line-height: 1;
+    }
+    .phase-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .phase-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .phase-list li::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+      margin-top: 7px;
+      opacity: 0.7;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(252,163,17,0.2);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 28px rgba(252,163,17,0.06);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 70px;
+    }
+    .card-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .team-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .team-row:last-child { border-bottom: none; }
+    .team-avatar {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.18);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .team-name { font-size: 0.92rem; font-weight: 700; }
+    .team-role { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    .budget-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .budget-row:last-child { border-bottom: none; }
+    .budget-name { color: var(--muted); }
+    .budget-val { color: var(--text); font-weight: 700; }
+    .budget-row.total .budget-name { color: var(--text); font-weight: 700; }
+    .budget-row.total .budget-val { color: var(--amber); font-size: 1.1rem; }
+
+    .specs-table { width: 100%; border-collapse: collapse; }
+    .specs-table tr { border-bottom: 1px solid var(--border); }
+    .specs-table tr:last-child { border-bottom: none; }
+    .specs-table td { padding: 12px 4px; font-size: 0.88rem; }
+    .specs-table td:first-child { color: var(--muted); width: 36%; }
+    .specs-table td:last-child { color: var(--text); font-weight: 500; }
+    .specs-table a { color: var(--amber); text-decoration: none; border-bottom: 1px solid rgba(252,163,17,0.3); }
+    .specs-table a:hover { border-color: var(--amber); }
+
+    .estimate-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .est-block {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+    .est-block:hover { border-color: rgba(252,163,17,0.18); }
+    .est-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .est-val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--amber); line-height: 1; }
+    .est-unit { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+
+    .pin-note {
+      background: var(--amber-dim);
+      border: 1px solid rgba(252,163,17,0.15);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .pins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .pin {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+      cursor: pointer;
+    }
+    .pin:hover {
+      transform: translateY(-5px);
+      border-color: rgba(252,163,17,0.25);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(252,163,17,0.07);
+    }
+    .pin img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s, filter 0.4s;
+    }
+    .pin:hover img { transform: scale(1.05); filter: brightness(1.1); }
+    .pin-label { padding: 10px 14px; font-size: 0.78rem; color: var(--muted); }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(252,163,17,0.35); border-radius: 3px; }
+
+    @media (max-width: 720px) {
+      .phases-grid { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .estimate-grid { grid-template-columns: repeat(2,1fr); }
+      .stat-bar { grid-template-columns: repeat(2,1fr); }
+      .stat-item { border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lb-img" src="" alt="">
+</div>
+
+<!-- LOCK -->
+<div id="lock">
+  <div class="lock-noise"></div>
+  <div class="lock-bg-1"></div>
+  <div class="lock-bg-2"></div>
+  <div class="lock-inner">
+    <div>
+      <div class="lock-wordmark">DARK<span class="accent">WATERS</span></div>
+      <div class="lock-sub">Map Development Plan &nbsp;·&nbsp; Internal Document</div>
+    </div>
+
+    <div id="loader">
+      <div class="loader-track"><div class="loader-fill"></div></div>
+      <div class="loader-label">Loading document…</div>
+    </div>
+
+    <div id="code-box">
+      <div class="lock-icon-wrap">🔒</div>
+      <div class="code-hint">Enter Access Code</div>
+      <input id="code-input" type="password" maxlength="10" placeholder="· · · · ·" autocomplete="off" />
+      <button class="unlock-btn" onclick="tryUnlock()">Unlock</button>
+      <div class="err-msg" id="err-msg"></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">
+      <span class="eyebrow-dot"></span>
+      Internal Document
+    </div>
+    <h1>
+      DARK<span class="accent">WATERS</span>
+      <span class="outline">Map Plan</span>
+    </h1>
+    <p class="hero-sub">Roblox map development plan covering phases, team, budget, and references.</p>
+    <div class="pills">
+      <div class="pill"><span class="pill-label">Width</span><span class="pill-val">24,400 studs</span></div>
+      <div class="pill"><span class="pill-label">Length</span><span class="pill-val">32,750 studs</span></div>
+      <div class="pill"><span class="pill-label">Area</span><span class="pill-val">~799M studs²</span></div>
+      <div class="pill"><span class="pill-label">Budget</span><span class="pill-val">$1,000</span></div>
+      <div class="pill"><span class="pill-label">Showcase</span><span class="pill-val">April 2026</span></div>
+      <div class="pill"><span class="pill-label">Launch</span><span class="pill-val">July 2026</span></div>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <div class="stat-bar">
+    <div class="stat-item">
+      <span class="stat-num">24,400</span>
+      <div class="stat-lbl">Studs Wide</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">32,750</span>
+      <div class="stat-lbl">Studs Long</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">$1,200</span>
+      <div class="stat-lbl">Total Budget</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">4</span>
+      <div class="stat-lbl">Team Members</div>
+    </div>
+  </div>
+
+  <div class="sec-label">Timeline</div>
+  <h2 class="sec-title">Development Phases</h2>
+  <div class="phases-grid">
+    <div class="phase-card">
+      <div class="phase-tag">Phase 1 · April 2026</div>
+      <div class="phase-title">Showcase Release</div>
+      <ul class="phase-list">
+        <li>Core terrain sculpting and ocean floor topology</li>
+        <li>Primary landmark zones roughed in</li>
+        <li>Atmosphere, lighting and underwater fog</li>
+        <li>Surface water visuals including foam and caustics</li>
+        <li>Key biome areas defined across the map</li>
+        <li>Hero zone polished for public demo</li>
+      </ul>
+    </div>
+    <div class="phase-card">
+      <div class="phase-tag">Phase 2 · July 2026</div>
+      <div class="phase-title">Full Map Release</div>
+      <ul class="phase-list">
+        <li>All zones fully built and detailed</li>
+        <li>Build kit assets placed throughout</li>
+        <li>Optimisation passes including LOD and streaming</li>
+        <li>Lore, signage and environmental storytelling</li>
+        <li>Final QA and playtesting sessions</li>
+        <li>Public launch</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-label">Technical</div>
+  <h2 class="sec-title">Map Specifications</h2>
+  <div class="card" style="margin-bottom:70px;">
+    <table class="specs-table">
+      <tr><td>Showcase Plan</td><td><a href="https://docs.google.com/document/d/15rRxupBSNyDd_fDbU_t_P88hQI2wCfxgarhiitCseA8/edit?usp=sharing" target="_blank">View Google Doc</a></td></tr>
+      <tr><td>Full Map Plan</td><td><a href="https://docs.google.com/document/d/1H2NdEupkwnnonSRUR6NiycGL6PriAuXRd5U16IVzt04/edit?usp=sharing" target="_blank">View Google Doc</a></td></tr>
+      <tr><td>Map Dimensions</td><td>24,400 x 32,750 studs</td></tr>
+      <tr><td>Total Area</td><td>799,100,000 studs²</td></tr>
+      <tr><td>Theme</td><td>Deep ocean / abyssal dark waters</td></tr>
+      <tr><td>Engine</td><td>Roblox Studio (Streaming Enabled recommended)</td></tr>
+      <tr><td>Showcase Deadline</td><td>April 2026</td></tr>
+      <tr><td>Full Release Deadline</td><td>July 2026</td></tr>
+    </table>
+  </div>
+
+  <div class="sec-label">People & Resources</div>
+  <h2 class="sec-title">Team & Budget</h2>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-label">Team</div>
+      <div class="team-row">
+        <div class="team-avatar">🔨</div>
+        <div><div class="team-name">Cassy</div><div class="team-role">Builder, Modeling</div></div>
+      </div>
+      <div class="team-row">
+        <div class="team-avatar">💻</div>
+        <div><div class="team-name">Kaelen</div><div class="team-role">Scripter, Engine Expert</div></div>
+      </div>
+      <div class="team-row">
+        <div class="team-avatar">🎬</div>
+        <div><div class="team-name">Mansa</div><div class="team-role">Animator</div></div>
+      </div>
+      <div class="team-row">
+        <div class="team-avatar">📋</div>
+        <div><div class="team-name">Oreo</div><div class="team-role">Management, Leadership</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Budget — Map Only</div>
+      <div class="budget-row"><span class="budget-name">Terrain Artist</span><span class="budget-val">Undetermined</span></div>
+      <div class="budget-row"><span class="budget-name">Builder Assistant</span><span class="budget-val">~$200</span></div>
+      <div class="budget-row"><span class="budget-name">Building</span><span class="budget-val">~$1,000</span></div>
+      <div class="budget-row total"><span class="budget-name">Total</span><span class="budget-val">$1,200</span></div>
+    </div>
+  </div>
+
+  <div class="sec-label">Schedule</div>
+  <h2 class="sec-title">Time Estimate</h2>
+  <div class="card" style="margin-bottom:70px;">
+    <div class="estimate-grid">
+      <div class="est-block"><div class="est-label">Terrain Work</div><div class="est-val">TBD</div><div class="est-unit">Showcase-ready terrain</div></div>
+      <div class="est-block"><div class="est-label">Build / Props</div><div class="est-val">TBD</div><div class="est-unit">Kit placement and detail</div></div>
+      <div class="est-block"><div class="est-label">Full Polish</div><div class="est-val">TBD</div><div class="est-unit">All zones finishing</div></div>
+      <div class="est-block"><div class="est-label">Total Timeline</div><div class="est-val">TBD</div><div class="est-unit">Showcase to launch</div></div>
+    </div>
+  </div>
+
+  <div class="sec-label">Mood & References</div>
+  <h2 class="sec-title">Reference Pinboard</h2>
+  <div class="pin-note">Click any image to view full size. To add references, contact Kaelen.</div>
+  <div class="pins-grid">
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/l3YvdaU.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/7vXMq3Y.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/tKDZWCx.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/as1jRGF.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/aBc6U06.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/ktYPiIY.png" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/r86P74M.png" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/BGSc4v9.png" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/Za8SbeG.png" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/vVZv5mq.png" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/edaoUAh.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/EZ0U8sl.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/f2y1wE0.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/f5xO0DO.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/YW5VBN6.jpeg" alt=""><div class="pin-label">Reference</div></div>
+    <div class="pin" onclick="openLB(this)"><img src="https://i.imgur.com/2xvALkv.jpeg" alt=""><div class="pin-label">Reference</div></div>
+  </div>
+
+</div>
+
+<footer>
+  &copy; <span id="yr"></span> Quantum Digitals &middot; Dark Waters Internal Document &middot; Confidential
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  setTimeout(() => {
+    document.getElementById('loader').style.display = 'none';
+    const b = document.getElementById('code-box');
+    b.style.display = 'flex';
+    setTimeout(() => document.getElementById('code-input').focus(), 60);
+  }, 4200);
+
+  document.getElementById('code-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryUnlock();
+  });
+
+  function tryUnlock() {
+    const v = document.getElementById('code-input').value.trim();
+    if (v === '77856') {
+      const l = document.getElementById('lock');
+      l.style.transition = 'opacity 0.7s ease';
+      l.style.opacity = '0';
+      setTimeout(() => l.remove(), 720);
+    } else {
+      const i = document.getElementById('code-input');
+      i.classList.add('shake');
+      i.value = '';
+      document.getElementById('err-msg').textContent = 'Incorrect code. Try again.';
+      setTimeout(() => i.classList.remove('shake'), 400);
+    }
+  }
+
+  function openLB(pin) {
+    document.getElementById('lb-img').src = pin.querySelector('img').src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.phase-card, .card, .pin, .est-block, .stat-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
